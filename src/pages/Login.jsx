@@ -1,10 +1,12 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { authContext } from '../AuthProvider/AuthProvider';
 
 export default function Login() {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({});
+  const [authToken, setAuthToken] = useContext(authContext);
 
   // save login info to state
   const handleChange = (e) => {
@@ -24,9 +26,11 @@ export default function Login() {
           'https://piar.meew.me/users/auth',
           loginInfo
         );
+
         const userToken = res.data.user_jwt;
         if (!!userToken) {
           localStorage.setItem('user_jwt', userToken);
+          setAuthToken(userToken);
           navigate('/');
         }
       } catch (err) {
@@ -49,6 +53,7 @@ export default function Login() {
             className="form-field"
             placeholder="Username"
             onChange={(e) => handleChange(e)}
+            required
           />
           <input
             type="password"
@@ -56,6 +61,7 @@ export default function Login() {
             className="form-field"
             placeholder="Password"
             onChange={(e) => handleChange(e)}
+            required
           />
           <button
             type="submit"

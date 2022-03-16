@@ -1,6 +1,7 @@
 {
   "extends": ["wesbos"],
   "rules": {
-    "no-extra-boolean-cast": "off"
+    "no-extra-boolean-cast": "off",
+    "react/prop-types": "off"
   }
 }

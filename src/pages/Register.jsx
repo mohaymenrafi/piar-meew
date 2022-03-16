@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import addUser from '../utils/addUser';
 
 // https://piar.meew.me/users/
 
 export default function Register() {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState({ comment: 'New User' });
+  const location = useLocation();
+  const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(false);
 
   // saving info to state
@@ -18,28 +20,13 @@ export default function Register() {
       [e.target.name]: e.target.value,
     });
   };
+  console.log(location.pathname);
 
   // submitting form information
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    const submitInfo = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.post('https://piar.meew.me/users', userInfo);
-        const result = res.data;
-        if (!!result.id) {
-          swal(
-            'You have succesfully registered! Please login to access your dashboard.'
-          ).then(() => {
-            navigate('/login');
-          });
-        }
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
-    submitInfo();
+    addUser(userInfo, navigate, location);
     setLoading(false);
   };
 
@@ -55,6 +42,14 @@ export default function Register() {
             className="form-field"
             placeholder="Full name"
             onChange={(e) => handleChange(e)}
+            required
+          />
+          <input
+            type="text"
+            name="comment"
+            className="form-field"
+            placeholder="Comment"
+            onChange={(e) => handleChange(e)}
           />
           <input
             type="text"
@@ -62,6 +57,7 @@ export default function Register() {
             className="form-field"
             placeholder="Username"
             onChange={(e) => handleChange(e)}
+            required
           />
           <input
             type="password"
@@ -69,6 +65,7 @@ export default function Register() {
             className="form-field"
             placeholder="Password"
             onChange={(e) => handleChange(e)}
+            required
           />
           <button
             type="submit"

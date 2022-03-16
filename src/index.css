@@ -32,6 +32,12 @@
   .sidebar-h {
     height: calc(100vh - 56px);
   }
+  .sidebaer-menu {
+    @apply hidden md:inline-block;
+  }
+  .sidebar-icon {
+    @apply text-xl;
+  }
 }
 
 /* Modal theming  */

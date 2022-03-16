@@ -1,33 +1,35 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Sidebar, Topbar } from '../components';
 
+import {
+  Users,
+  Stations,
+  AddUsers,
+  AddStations,
+  EditUsers,
+  EditStations,
+} from './index';
+import NotFound from './NotFound';
+
 export default function Home() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const userToken = localStorage.getItem('user_jwt');
-  useEffect(() => {
-    setLoading(true);
-    const getUsers = async () => {
-      try {
-        const res = await axios.get('https://piar.meew.me/users', {
-          headers: {
-            'user-jwt': userToken,
-          },
-        });
-        setUsers(res.data);
-      } catch (err) {
-        console.log(err.message);
-      }
-    };
-    getUsers();
-    setLoading(false);
-  }, []);
-  if (loading) return <h2 className="text-6xl">Loading.....</h2>;
   return (
     <div>
       <Topbar />
-      <Sidebar />
+      <div className="flex">
+        <Sidebar />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Users />} />
+            <Route path="stations" element={<Stations />} />
+            <Route path="users/add/" element={<AddUsers />} />
+            <Route path="stations/add/" element={<AddStations />} />
+            <Route path="users/edit/:id" element={<EditUsers />} />
+            <Route path="stations/edit/:id" element={<EditStations />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 }
