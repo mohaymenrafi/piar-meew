@@ -8,7 +8,7 @@ import { CircularProgress } from '@mui/material';
 import { deleteSingleUser } from '../utils/delete';
 import { authContext } from '../AuthProvider/AuthProvider';
 
-export default function DataTable({ datas, setDatas }) {
+export default function DataTable({ datas, setDatas, loading }) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [authToken] = useContext(authContext);
   const location = useLocation();
@@ -109,7 +109,11 @@ export default function DataTable({ datas, setDatas }) {
       </div>
 
       {/* table  */}
-      {!!datas.length ? (
+      {loading ? (
+        <div className="flex items-center justify-center h-52">
+          <CircularProgress />
+        </div>
+      ) : (
         <div style={{ height: 527, maxWidth: '700px' }}>
           <DataGrid
             rows={datas}
@@ -120,10 +124,6 @@ export default function DataTable({ datas, setDatas }) {
             checkboxSelection
             onSelectionModelChange={(rows) => setSelectedRows(rows)}
           />
-        </div>
-      ) : (
-        <div className="flex items-center justify-center h-52">
-          <CircularProgress />
         </div>
       )}
     </div>

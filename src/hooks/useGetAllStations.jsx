@@ -6,8 +6,10 @@ import { authContext } from '../AuthProvider/AuthProvider';
 const useGetAllStations = () => {
   const [stations, setStations] = useState([]);
   const [authToken] = useContext(authContext);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getStations = async () => {
+      setLoading(true);
       try {
         const res = await axios.get('https://piar.meew.me/stations', {
           headers: {
@@ -19,10 +21,11 @@ const useGetAllStations = () => {
       } catch (err) {
         console.log(err.message);
       }
+      setLoading(false);
     };
     getStations();
   }, []);
-  return [stations, setStations];
+  return [stations, setStations, loading];
 };
 
 export default useGetAllStations;
