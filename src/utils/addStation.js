@@ -14,7 +14,7 @@ const addStation = (newStation, authToken) => {
           },
         }
       );
-      swal('Station Added Successfully');
+      swal('Station Added Successfully', { buttons: 'Okay' });
     } catch (err) {
       console.log(err.message);
     }

@@ -31,6 +31,7 @@ export default function AddStations() {
           name="name"
           placeholder="Station Name"
           onChange={(e) => handleChange(e)}
+          required
         />
         <input
           type="text"
@@ -38,6 +39,7 @@ export default function AddStations() {
           className="form-field w-full"
           placeholder="Comment"
           onChange={(e) => handleChange(e)}
+          required
         />
 
         <button

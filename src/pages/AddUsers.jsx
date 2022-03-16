@@ -33,6 +33,7 @@ export default function AddUsers() {
           name="name"
           placeholder="Full Name"
           onChange={(e) => handleChange(e)}
+          required
         />
         <input
           type="text"
@@ -47,6 +48,7 @@ export default function AddUsers() {
           name="login"
           placeholder="Username"
           onChange={(e) => handleChange(e)}
+          required
         />
         <input
           className="form-field w-full"
@@ -54,6 +56,7 @@ export default function AddUsers() {
           name="password"
           placeholder="Password"
           onChange={(e) => handleChange(e)}
+          required
         />
         <button
           type="submit"

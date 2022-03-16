@@ -53,7 +53,7 @@ export default function EditUsers() {
             },
           }
         );
-        swal('User Edited Successfully');
+        swal('User Edited Successfully', { buttons: 'Okay' });
       } catch (err) {
         console.error(err.message);
       }
