@@ -4,6 +4,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import moment from 'moment';
 import { Link, useLocation } from 'react-router-dom';
 import swal from 'sweetalert';
+import { CircularProgress } from '@mui/material';
 import { deleteSingleUser } from '../utils/delete';
 import { authContext } from '../AuthProvider/AuthProvider';
 
@@ -21,6 +22,7 @@ export default function DataTable({ datas, setDatas }) {
     path = 'stations';
   }
 
+  // single delete item
   const handleSingleDelete = (id) => {
     swal('Please Confrim again to DELETE ', { buttons: 'Yes, DELETE' }).then(
       (value) => {
@@ -33,6 +35,8 @@ export default function DataTable({ datas, setDatas }) {
       }
     );
   };
+
+  // delete multiple selected
   const handleSelectedRowDelete = (ids) => {
     swal('Please Confirm again to DELETE Selected', {
       buttons: 'Yes, DELETE SELECTED',
@@ -47,6 +51,8 @@ export default function DataTable({ datas, setDatas }) {
       }
     });
   };
+
+  // table columns
   const columns = [
     { field: 'id', headerName: 'ID', width: 50 },
     { field: 'name', headerName: 'Name', width: 130 },
@@ -103,17 +109,23 @@ export default function DataTable({ datas, setDatas }) {
       </div>
 
       {/* table  */}
-      <div style={{ height: 527, maxWidth: '700px' }}>
-        <DataGrid
-          rows={datas}
-          disableSelectionOnClick
-          columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[8]}
-          checkboxSelection
-          onSelectionModelChange={(rows) => setSelectedRows(rows)}
-        />
-      </div>
+      {!!datas.length ? (
+        <div style={{ height: 527, maxWidth: '700px' }}>
+          <DataGrid
+            rows={datas}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={8}
+            rowsPerPageOptions={[8]}
+            checkboxSelection
+            onSelectionModelChange={(rows) => setSelectedRows(rows)}
+          />
+        </div>
+      ) : (
+        <div className="flex items-center justify-center h-52">
+          <CircularProgress />
+        </div>
+      )}
     </div>
   );
 }
