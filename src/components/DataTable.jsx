@@ -27,7 +27,7 @@ export default function DataTable({ datas, setDatas }) {
         if (value) {
           setTimeout(() => {
             setDatas(datas.filter((data) => data.id !== id));
-            // deleteSingleUser(id, authToken, path);
+            deleteSingleUser(id, authToken, path);
           });
         }
       }
@@ -41,7 +41,7 @@ export default function DataTable({ datas, setDatas }) {
         let filteredData = datas;
         for (const id of ids) {
           filteredData = filteredData.filter((item) => item.id !== id);
-          // deleteSingleUser(id, authToken, path);
+          deleteSingleUser(id, authToken, path);
         }
         setDatas(filteredData);
       }
