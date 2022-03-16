@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 export { default as Home } from './Home';
 export { default as Login } from './Login';
 export { default as Register } from './Register';

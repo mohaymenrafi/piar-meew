@@ -1,12 +1,11 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { authContext } from '../AuthProvider/AuthProvider';
-import DataTable from '../components/DataTable';
 
-export default function Users() {
+// fetching all users from server
+const useGetAllUsers = () => {
   const [users, setUsers] = useState([]);
   const [authToken] = useContext(authContext);
-
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -23,10 +22,7 @@ export default function Users() {
     };
     getUsers();
   }, []);
+  return [users, setUsers];
+};
 
-  return (
-    <div>
-      <DataTable datas={users} setDatas={setUsers} />
-    </div>
-  );
-}
+export default useGetAllUsers;

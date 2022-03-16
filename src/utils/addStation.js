@@ -1,5 +1,7 @@
 import axios from 'axios';
+import swal from 'sweetalert';
 
+// Adding a new station function
 const addStation = (newStation, authToken) => {
   const submitInfo = async () => {
     try {
@@ -12,8 +14,7 @@ const addStation = (newStation, authToken) => {
           },
         }
       );
-      const result = await res.data;
-      console.log(result);
+      swal('Station Added Successfully');
     } catch (err) {
       console.log(err.message);
     }

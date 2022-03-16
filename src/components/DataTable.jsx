@@ -86,7 +86,7 @@ export default function DataTable({ datas, setDatas }) {
   ];
 
   return (
-    <div className="w-full px-12 pt-4">
+    <div className="w-full px-3 md:px-12 pt-4">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-3xl font-semibold text-black text-left">
           {location.pathname === '/' ? 'All Users' : 'All Stations'}

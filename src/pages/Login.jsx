@@ -1,27 +1,28 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { authContext } from '../AuthProvider/AuthProvider';
 
 export default function Login() {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({});
   const [authToken, setAuthToken] = useContext(authContext);
+  const [error, setError] = useState('');
 
   // save login info to state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginInfo({
-      // TODO: set errror message for wrong login info
       ...loginInfo,
       [name]: value,
     });
   };
-  // submit login info
+  // submit login info to server
   const handleSubmit = (e) => {
     e.preventDefault();
     const submitLogin = async () => {
       try {
+        setError('');
         const res = await axios.post(
           'https://piar.meew.me/users/auth',
           loginInfo
@@ -35,6 +36,7 @@ export default function Login() {
         }
       } catch (err) {
         console.error(err.message);
+        setError(`Username or Password didn't match`);
       }
     };
     submitLogin();
@@ -63,6 +65,11 @@ export default function Login() {
             onChange={(e) => handleChange(e)}
             required
           />
+          {!!error && (
+            <div className="w-60">
+              <p>{error}</p>
+            </div>
+          )}
           <button
             type="submit"
             className="bg-white transition-all rounded-md py-2 hover:bg-cus-blue hover:text-white"

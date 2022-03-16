@@ -1,32 +1,40 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import swal from 'sweetalert';
 import addUser from '../utils/addUser';
-
-// https://piar.meew.me/users/
 
 export default function Register() {
   const navigate = useNavigate();
   const location = useLocation();
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // saving info to state
   const handleChange = (e) => {
-    // TODO: standard passowrd validation
+    const { name, value } = e.target;
+    if (name === 'password') {
+      const regex =
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+      if (regex.test(value)) {
+        setError('');
+      } else {
+        setError(
+          'Password minimum 8 characters long with atleaset one Uppercase & one lowercase letter, one number and one special character'
+        );
+      }
+    }
     setUserInfo({
       ...userInfo,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
-  console.log(location.pathname);
 
-  // submitting form information
+  // submitting form information to server
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     addUser(userInfo, navigate, location);
+    console.log(userInfo);
     setLoading(false);
   };
 
@@ -67,9 +75,15 @@ export default function Register() {
             onChange={(e) => handleChange(e)}
             required
           />
+          {!!error && (
+            <div className="text-sm w-60">
+              <p>{error}</p>
+            </div>
+          )}
           <button
             type="submit"
-            className="bg-white transition-all rounded-md py-2 hover:bg-[#1162B5] hover:text-white"
+            disabled={!!error}
+            className="bg-white transition-all rounded-md py-2 hover:bg-[#1162B5] hover:text-white disabled:bg-gray-300 disabled:text-black disabled:cursor-not-allowed"
           >
             {loading ? 'Creating' : 'Sign up'}
           </button>

@@ -6,6 +6,7 @@ export default function AddStations() {
   const [newStation, setNewStation] = useState({});
   const [authToken] = useContext(authContext);
 
+  // saving station info to state
   const handleChange = (e) => {
     const { value, name } = e.target;
     setNewStation({
@@ -14,9 +15,9 @@ export default function AddStations() {
     });
   };
 
+  // submitting sattion info to server
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(newStation);
     await addStation(newStation, authToken);
     e.target.reset();
   };

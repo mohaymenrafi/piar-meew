@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import swal from 'sweetalert';
 import { authContext } from '../AuthProvider/AuthProvider';
 
 export default function EditUsers() {
@@ -8,18 +9,25 @@ export default function EditUsers() {
   const params = useParams();
   const [authToken] = useContext(authContext);
 
+  // fetching user using ID
   useEffect(() => {
     const getUser = async () => {
-      const res = await axios.get(`https://piar.meew.me/users/${params.id}`, {
-        headers: {
-          'user-jwt': authToken,
-        },
-      });
-      const result = await res.data;
-      setUser(result);
+      try {
+        const res = await axios.get(`https://piar.meew.me/users/${params.id}`, {
+          headers: {
+            'user-jwt': authToken,
+          },
+        });
+        const result = await res.data;
+        setUser(result);
+      } catch (err) {
+        console.error(err.message);
+      }
     };
     getUser();
   }, []);
+
+  // saving updated info to state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -27,6 +35,8 @@ export default function EditUsers() {
       [name]: value,
     });
   };
+
+  // submitting for updated user on server
   const handleSubmit = (e) => {
     e.preventDefault();
     const { name, comment, login, password } = user;
@@ -43,8 +53,7 @@ export default function EditUsers() {
             },
           }
         );
-        const result = await res.data;
-        console.log(result);
+        swal('User Edited Successfully');
       } catch (err) {
         console.error(err.message);
       }
@@ -84,7 +93,7 @@ export default function EditUsers() {
           className="form-field w-full"
           type="password"
           name="password"
-          placeholder="password to verify"
+          placeholder="password"
           value={user.password || ''}
           onChange={(e) => handleChange(e)}
         />

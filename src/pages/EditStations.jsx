@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import swal from 'sweetalert';
 import { authContext } from '../AuthProvider/AuthProvider';
 
 export default function EditStations() {
@@ -11,20 +12,25 @@ export default function EditStations() {
   // fetch single station using id
   useEffect(() => {
     const getUser = async () => {
-      const res = await axios.get(
-        `https://piar.meew.me/stations/${params.id}`,
-        {
-          headers: {
-            'user-jwt': authToken,
-          },
-        }
-      );
-      const result = await res.data;
-      setStation(result);
+      try {
+        const res = await axios.get(
+          `https://piar.meew.me/stations/${params.id}`,
+          {
+            headers: {
+              'user-jwt': authToken,
+            },
+          }
+        );
+        const result = await res.data;
+        setStation(result);
+      } catch (err) {
+        console.error(err.message);
+      }
     };
     getUser();
   }, []);
 
+  // saving updated staion info to state
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStation({
@@ -33,6 +39,7 @@ export default function EditStations() {
     });
   };
 
+  // submitting updated station info to server
   const handleSubmit = (e) => {
     e.preventDefault();
     const submitEditedStation = async () => {
@@ -46,8 +53,7 @@ export default function EditStations() {
             },
           }
         );
-        const result = res.data;
-        console.log(result);
+        swal('Station Edited Successfully');
       } catch (err) {
         console.error(err.message);
       }

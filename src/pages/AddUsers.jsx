@@ -6,6 +6,8 @@ export default function AddUsers() {
   const [newUser, setNewUser] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Saving info to state
   const handleChange = (e) => {
     const { value, name } = e.target;
     setNewUser({
@@ -14,6 +16,7 @@ export default function AddUsers() {
     });
   };
 
+  // submiting info to server on submit
   const handleSubmit = async (e) => {
     console.log(newUser);
     e.preventDefault();

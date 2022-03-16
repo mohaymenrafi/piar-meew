@@ -1,16 +1,16 @@
 import axios from 'axios';
 import swal from 'sweetalert';
 
+// Adding new user function
 const addUser = (newUser, navigate, location) => {
   const submitInfo = async () => {
     try {
       const res = await axios.post('https://piar.meew.me/users', newUser);
       const result = res.data;
       if (!!result.id) {
+        // redirection based on register page & dashbaord page
         if (location.pathname === '/users/add') {
-          swal('You have succesfully registered a new user! ').then(() => {
-            // navigate('/');
-          });
+          swal('You have succesfully registered a new user! ').then(() => {});
         }
         if (location.pathname === '/register') {
           swal(
